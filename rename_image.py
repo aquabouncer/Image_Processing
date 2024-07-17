@@ -1,6 +1,6 @@
 import os
 
-directory = "C:\\Users\\Zebus\\Desktop\\rice\\Rice_Image_Dataset"
+directory = "your folder directory here"
 
 # Loop through the folders and the images in the folders to rename them
 for dirpath, dirnames, filenames in os.walk(directory):

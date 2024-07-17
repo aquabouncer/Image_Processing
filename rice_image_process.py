@@ -2,8 +2,11 @@ import os
 import cv2
 import numpy as np
 
-input_directory = "C:\\Users\\Zebus\\Desktop\\rice\\Rice_Image_Dataset\\Jasmine"
-output_directory = "C:\\Users\\Zebus\\Desktop\\rice\\Processed_Rice_Images4"
+# https://www.kaggle.com/datasets/muratkokludataset/rice-image-dataset
+""" You can get the rice image set from. You will need to rename the images from the data set with the included rename_image.py"""
+
+input_directory = "rice image set here"
+output_directory = "where you want the output here. make sure it is to a folder"
 
 # Create the output directory if it doesn't exist
 if not os.path.exists(output_directory):
@@ -11,7 +14,8 @@ if not os.path.exists(output_directory):
 
 # Process each image in the input directory
 for filename in os.listdir(input_directory):
-    if filename.endswith(".jpg") or filename.endswith(".png"):
+
+    if filename.endswith(".jpg"):
         file_path = os.path.join(input_directory, filename)
         image = cv2.imread(file_path)
 
@@ -21,12 +25,15 @@ for filename in os.listdir(input_directory):
 
         image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         image_blur = cv2.GaussianBlur(image_gray, (5, 5), 0)
+        
         image_edge = cv2.Canny(image_blur, 50, 150)
         processed_contours, _ = cv2.findContours(image_edge, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         for contour in processed_contours:
             if len(contour) >= 5:  # fitEllipse requires at least 5 points
+                #fit the ellipse based on the countours
                 ellipse = cv2.fitEllipse(contour)
+                #draw teh ellipse to the image
                 image = cv2.ellipse(image, ellipse, (0, 255, 0), 2)
                 
                 # Extract center, axes, and angle
@@ -43,10 +50,10 @@ for filename in os.listdir(input_directory):
                 )
                 
                 # Draw the orientation line
-                image = cv2.line(image, center, end_point, (255, 0, 0), 2)
+                #image = cv2.line(image, center, end_point, (255, 0, 0), 2)
                 
-                # Optionally draw an arrow to indicate direction
-                #image = cv2.arrowedLine(image, center, end_point, (255, 0, 0), 2, tipLength=0.2)
+                # Draw an arrow to indicate direction
+                image = cv2.arrowedLine(image, center, end_point, (255, 0, 0), 2, tipLength=0.2)
 
         # Save the processed image
         output_file_path = os.path.join(output_directory, filename)

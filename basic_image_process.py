@@ -6,7 +6,7 @@ in the cv2.imshow()
 
  """
 
-directory ="C:\\Users\\Zebus\\Desktop\\rice\\Rice_Image_Dataset\\Arborio\\Arborio_1.jpg"
+directory ="your image directory here dont forget to \\"
 image = cv2.imread(directory)
 
 image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
